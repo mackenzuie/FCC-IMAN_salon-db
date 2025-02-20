@@ -1,157 +1,267 @@
-camper: /project$ psql --username=freecodecamp --dbname=postgres
-psql (12.17 (Ubuntu 12.17-1.pgdg22.04+1))
-SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
-Type "help" for help.
+--
+-- PostgreSQL database dump
+--
 
-postgres=> CREATE DATABASE salon;
-CREATE DATABASE
-postgres=> \q
-camper: /project$ psql --username=freecodecamp --dbname=salon
-psql (12.17 (Ubuntu 12.17-1.pgdg22.04+1))
-SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
-Type "help" for help.
+-- Dumped from database version 12.17 (Ubuntu 12.17-1.pgdg22.04+1)
+-- Dumped by pg_dump version 12.17 (Ubuntu 12.17-1.pgdg22.04+1)
 
-salon=> CREATE TABLE customers (
-salon(>     customer_id SERIAL PRIMARY KEY,
-salon(>     name VARCHAR(50),
-salon(>     phone VARCHAR(20) UNIQUE
-salon(> );
-CREATE TABLE
-salon=> CREATE TABLE services (
-salon(>     service_id SERIAL PRIMARY KEY,
-salon(>     name VARCHAR(50)
-salon(> );
-CREATE TABLE
-salon=> CREATE TABLE appointments (
-salon(>     appointment_id SERIAL PRIMARY KEY,
-salon(>     customer_id INT REFERENCES customers(customer_id),
-salon(>     service_id INT REFERENCES services(service_id),
-salon(>     time VARCHAR(20)
-salon(> );
-CREATE TABLE
-salon=> INSERT INTO services (name) VALUES 
-salon-> ('Haircut'),
-salon-> ('Shave'),
-salon-> ('Massage');
-INSERT 0 3
-salon=> \dt
-              List of relations
- Schema |     Name     | Type  |    Owner     
---------+--------------+-------+--------------
- public | appointments | table | freecodecamp
- public | customers    | table | freecodecamp
- public | services     | table | freecodecamp
-(3 rows)
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
 
-salon=> \q
-camper: /project$ touch salon.sh
-camper: /project$ chmod +x salon.sh
-camper: /project$ nano salon.sh
-camper: /project$ ./salon.sh
+DROP DATABASE salon;
+--
+-- Name: salon; Type: DATABASE; Schema: -; Owner: freecodecamp
+--
 
-Welcome to the Salon! How may I help you?
+CREATE DATABASE salon WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C.UTF-8' LC_CTYPE = 'C.UTF-8';
 
-1) Haircut
-2) Shave
-3) Massage
 
-Please select a service by entering the corresponding number:
+ALTER DATABASE salon OWNER TO freecodecamp;
 
-ERROR:  syntax error at end of input
-LINE 1: SELECT service_id FROM services WHERE service_id = 
-                                                           ^
+\connect salon
 
-Invalid selection. Please choose again:
-1) Haircut
-2) Shave
-3) Massage
-pg_dump -cC --inserts -U freecodecamp salon > salon.sql
-ERROR:  column "pg_dump" does not exist
-LINE 1: ...ELECT service_id FROM services WHERE service_id = pg_dump -c...
-                                                             ^
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
 
-Invalid selection. Please choose again:
-1) Haircut
-2) Shave
-3) Massage
+SET default_tablespace = '';
 
-ERROR:  syntax error at end of input
-LINE 1: SELECT service_id FROM services WHERE service_id = 
-                                                           ^
+SET default_table_access_method = heap;
 
-Invalid selection. Please choose again:
-1) Haircut
-2) Shave
-3) Massage
+--
+-- Name: appointments; Type: TABLE; Schema: public; Owner: freecodecamp
+--
 
-ERROR:  syntax error at end of input
-LINE 1: SELECT service_id FROM services WHERE service_id = 
-                                                           ^
+CREATE TABLE public.appointments (
+    appointment_id integer NOT NULL,
+    customer_id integer,
+    service_id integer,
+    "time" character varying(20)
+);
 
-Invalid selection. Please choose again:
-1) Haircut
-2) Shave
-3) Massage
 
-ERROR:  syntax error at end of input
-LINE 1: SELECT service_id FROM services WHERE service_id = 
-                                                           ^
+ALTER TABLE public.appointments OWNER TO freecodecamp;
 
-Invalid selection. Please choose again:
-1) Haircut
-2) Shave
-3) Massage
+--
+-- Name: appointments_appointment_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+--
 
-ERROR:  syntax error at end of input
-LINE 1: SELECT service_id FROM services WHERE service_id = 
-                                                           ^
+CREATE SEQUENCE public.appointments_appointment_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
-Invalid selection. Please choose again:
-1) Haircut
-2) Shave
-3) Massage
 
-ERROR:  syntax error at end of input
-LINE 1: SELECT service_id FROM services WHERE service_id = 
-                                                           ^
+ALTER TABLE public.appointments_appointment_id_seq OWNER TO freecodecamp;
 
-Invalid selection. Please choose again:
-1) Haircut
-2) Shave
-3) Massage
+--
+-- Name: appointments_appointment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
+--
 
-ERROR:  syntax error at end of input
-LINE 1: SELECT service_id FROM services WHERE service_id = 
-                                                           ^
+ALTER SEQUENCE public.appointments_appointment_id_seq OWNED BY public.appointments.appointment_id;
 
-Invalid selection. Please choose again:
-1) Haircut
-2) Shave
-3) Massage
 
-ERROR:  syntax error at end of input
-LINE 1: SELECT service_id FROM services WHERE service_id = 
-                                                           ^
+--
+-- Name: customers; Type: TABLE; Schema: public; Owner: freecodecamp
+--
 
-Invalid selection. Please choose again:
-1) Haircut
-2) Shave
-3) Massage
-pg_dump -cC --inserts -U freecodecamp salon > salon.sql
-ERROR:  column "pg_dump" does not exist
-LINE 1: ...ELECT service_id FROM services WHERE service_id = pg_dump -c...
-                                                             ^
+CREATE TABLE public.customers (
+    customer_id integer NOT NULL,
+    name character varying(50),
+    phone character varying(20)
+);
 
-Invalid selection. Please choose again:
-1) Haircut
-2) Shave
-3) Massage
 
-ERROR:  syntax error at end of input
-LINE 1: SELECT service_id FROM services WHERE service_id = 
-                                                           ^
+ALTER TABLE public.customers OWNER TO freecodecamp;
 
-Invalid selection. Please choose again:
-1) Haircut
-2) Shave
-3) Massage
+--
+-- Name: customers_customer_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+--
+
+CREATE SEQUENCE public.customers_customer_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.customers_customer_id_seq OWNER TO freecodecamp;
+
+--
+-- Name: customers_customer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
+--
+
+ALTER SEQUENCE public.customers_customer_id_seq OWNED BY public.customers.customer_id;
+
+
+--
+-- Name: services; Type: TABLE; Schema: public; Owner: freecodecamp
+--
+
+CREATE TABLE public.services (
+    service_id integer NOT NULL,
+    name character varying(50)
+);
+
+
+ALTER TABLE public.services OWNER TO freecodecamp;
+
+--
+-- Name: services_service_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+--
+
+CREATE SEQUENCE public.services_service_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.services_service_id_seq OWNER TO freecodecamp;
+
+--
+-- Name: services_service_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
+--
+
+ALTER SEQUENCE public.services_service_id_seq OWNED BY public.services.service_id;
+
+
+--
+-- Name: appointments appointment_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.appointments ALTER COLUMN appointment_id SET DEFAULT nextval('public.appointments_appointment_id_seq'::regclass);
+
+
+--
+-- Name: customers customer_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.customers ALTER COLUMN customer_id SET DEFAULT nextval('public.customers_customer_id_seq'::regclass);
+
+
+--
+-- Name: services service_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.services ALTER COLUMN service_id SET DEFAULT nextval('public.services_service_id_seq'::regclass);
+
+
+--
+-- Data for Name: appointments; Type: TABLE DATA; Schema: public; Owner: freecodecamp
+--
+
+INSERT INTO public.appointments VALUES (7, 6, 1, '11:11');
+
+
+--
+-- Data for Name: customers; Type: TABLE DATA; Schema: public; Owner: freecodecamp
+--
+
+INSERT INTO public.customers VALUES (6, 'mACKYBOOMBOOM', '1234-5678-1234');
+
+
+--
+-- Data for Name: services; Type: TABLE DATA; Schema: public; Owner: freecodecamp
+--
+
+INSERT INTO public.services VALUES (1, 'Haircut');
+INSERT INTO public.services VALUES (2, 'Shave');
+INSERT INTO public.services VALUES (3, 'Massage');
+
+
+--
+-- Name: appointments_appointment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
+--
+
+SELECT pg_catalog.setval('public.appointments_appointment_id_seq', 7, true);
+
+
+--
+-- Name: customers_customer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
+--
+
+SELECT pg_catalog.setval('public.customers_customer_id_seq', 6, true);
+
+
+--
+-- Name: services_service_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
+--
+
+SELECT pg_catalog.setval('public.services_service_id_seq', 3, true);
+
+
+--
+-- Name: appointments appointments_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.appointments
+    ADD CONSTRAINT appointments_pkey PRIMARY KEY (appointment_id);
+
+
+--
+-- Name: customers customers_phone_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.customers
+    ADD CONSTRAINT customers_phone_key UNIQUE (phone);
+
+
+--
+-- Name: customers customers_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.customers
+    ADD CONSTRAINT customers_pkey PRIMARY KEY (customer_id);
+
+
+--
+-- Name: services services_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.services
+    ADD CONSTRAINT services_pkey PRIMARY KEY (service_id);
+
+
+--
+-- Name: appointments appointments_customer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.appointments
+    ADD CONSTRAINT appointments_customer_id_fkey FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
+
+
+--
+-- Name: appointments appointments_service_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.appointments
+    ADD CONSTRAINT appointments_service_id_fkey FOREIGN KEY (service_id) REFERENCES public.services(service_id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
